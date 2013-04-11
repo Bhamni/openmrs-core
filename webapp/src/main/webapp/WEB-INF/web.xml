@@ -165,13 +165,14 @@
 		<!--  extends ContextLoaderListener -->
 	</listener>
 
+    <listener>
+        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+    </listener>
+
 	<listener>
 		<listener-class>org.openmrs.web.SessionListener</listener-class>
 	</listener>
 	
-    <listener>
-        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
-    </listener>
 	
 	<servlet>
 		<servlet-name>dwr-invoker</servlet-name>
