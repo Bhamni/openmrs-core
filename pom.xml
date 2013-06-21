@@ -2,7 +2,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.openmrs</groupId>
-	<artifactId>openmrs</artifactId>
+	<artifactId>bahmni-openmrs</artifactId>
 	<version>1.9.4-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>OpenMRS</name>
@@ -45,34 +45,34 @@
             <!-- OpenMRS Dependencies -->
             <dependency>
                 <groupId>org.openmrs.tools</groupId>
-                <artifactId>openmrs-tools</artifactId>
+                <artifactId>bahmni-openmrs-tools</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.openmrs.test</groupId>
-                <artifactId>openmrs-test</artifactId>
+                <artifactId>bahmni-openmrs-tools</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>org.openmrs.api</groupId>
-                <artifactId>openmrs-api</artifactId>
+                <artifactId>bahmni-openmrs-tools</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.openmrs.api</groupId>
-                <artifactId>openmrs-api</artifactId>
+                <artifactId>bahmni-openmrs-tools</artifactId>
                 <version>${project.version}</version>
                 <type>test-jar</type>
             </dependency>
             <dependency>
                 <groupId>org.openmrs.web</groupId>
-                <artifactId>openmrs-web</artifactId>
+                <artifactId>bahmni-openmrs-tools</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.openmrs.web</groupId>
-                <artifactId>openmrs-webapp</artifactId>
+                <artifactId>bahmni-openmrs-tools</artifactId>
                 <version>${project.version}</version>
                 <type>war</type>
             </dependency>
@@ -782,7 +782,7 @@
 					<dependencies>
 						<dependency>
 							<groupId>org.openmrs.tools</groupId>
-							<artifactId>openmrs-tools</artifactId>
+							<artifactId>bahmni-openmrs-tools</artifactId>
 							<version>${project.version}</version>
 						</dependency>
 					</dependencies>
@@ -800,7 +800,7 @@
 					<dependencies>
 						<dependency>
 							<groupId>org.openmrs.tools</groupId>
-							<artifactId>openmrs-tools</artifactId>
+							<artifactId>bahmni-openmrs-tools</artifactId>
 							<version>${project.version}</version>
 						</dependency>
 					</dependencies>

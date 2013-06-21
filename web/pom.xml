@@ -1,32 +1,35 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
    <parent>
       <groupId>org.openmrs</groupId>
-      <artifactId>openmrs</artifactId>
+      <artifactId>bahmni-openmrs</artifactId>
       <version>1.9.4-SNAPSHOT</version>
    </parent>
    <modelVersion>4.0.0</modelVersion>
    <groupId>org.openmrs.web</groupId>
-   <artifactId>openmrs-web</artifactId>
+   <artifactId>bahmni-openmrs-web</artifactId>
    <packaging>jar</packaging>
-   <name>openmrs-web</name>
+   <name>bahmni-openmrs-web</name>
    <description>The web layer of open mrs</description>
    <dependencies>
       <dependency>
          <groupId>org.openmrs.api</groupId>
-         <artifactId>openmrs-api</artifactId>
+         <artifactId>bahmni-openmrs-api</artifactId>
+          <version>1.9.4-SNAPSHOT</version>
       </dependency>
       <dependency>
          <groupId>org.openmrs.test</groupId>
-         <artifactId>openmrs-test</artifactId>
+         <artifactId>bahmni-openmrs-test</artifactId>
          <type>pom</type>
          <scope>test</scope>
+          <version>1.9.4-SNAPSHOT</version>
       </dependency>
       <!-- Test-jar for sharing api test resources in web tests -->
       <dependency>
          <groupId>org.openmrs.api</groupId>
-         <artifactId>openmrs-api</artifactId>
+         <artifactId>bahmni-openmrs-api</artifactId>
          <type>test-jar</type>
          <scope>test</scope>
+          <version>1.9.4-SNAPSHOT</version>
       </dependency>
       <dependency>
          <groupId>javax.servlet</groupId>

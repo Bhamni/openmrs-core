@@ -1,24 +1,26 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
    <parent>
       <groupId>org.openmrs</groupId>
-      <artifactId>openmrs</artifactId>
+      <artifactId>bahmni-openmrs</artifactId>
       <version>1.9.4-SNAPSHOT</version>
    </parent>
    <modelVersion>4.0.0</modelVersion>
    <groupId>org.openmrs.web</groupId>
-   <artifactId>openmrs-webapp</artifactId>
+   <artifactId>bahmni-openmrs-webapp</artifactId>
    <packaging>war</packaging>
-   <name>openmrs-webapp</name>
+   <name>bahmni-openmrs-webapp</name>
    <description>The web application of openmrs</description>
 
    <dependencies>
       <dependency>
          <groupId>org.openmrs.api</groupId>
-         <artifactId>openmrs-api</artifactId>
+         <artifactId>bahmni-openmrs-api</artifactId>
+          <version>1.9.4-SNAPSHOT</version>
       </dependency>
       <dependency>
          <groupId>org.openmrs.web</groupId>
-         <artifactId>openmrs-web</artifactId>
+         <artifactId>bahmni-openmrs-web</artifactId>
+          <version>1.9.4-SNAPSHOT</version>
          <exclusions>
             <exclusion>
                <groupId>javax.servlet</groupId>
@@ -117,7 +119,7 @@
                 <dependencies>
                     <dependency>
                         <groupId>org.openmrs.tools</groupId>
-                        <artifactId>openmrs-tools</artifactId>
+                        <artifactId>bahmni-openmrs-tools</artifactId>
                         <version>${project.version}</version>
                     </dependency>
                 </dependencies>
