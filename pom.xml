@@ -994,7 +994,7 @@
 		</pluginRepository>
 	</pluginRepositories>
 
-	<distributionManagement>
+	<!-- <distributionManagement>
 		<repository>
 			<id>openmrs-repo-releases</id>
 			<name>OpenMRS Nexus Releases</name>
@@ -1005,6 +1005,14 @@
 			<name>OpenMRS Nexus Snapshots</name>
 			<url>http://mavenrepo.openmrs.org/nexus/content/repositories/snapshots</url>
 		</snapshotRepository>
+	</distributionManagement> -->
+
+	<distributionManagement>
+	    <snapshotRepository>
+	        <id>bahmni-artifactory</id>
+	        <name>bahmni-artifactory-snapshots</name>
+	        <url>http://bahmnirepo.thoughtworks.com/artifactory/libs-snapshot-local</url>
+	    </snapshotRepository>
 	</distributionManagement>
 
 	<properties>
