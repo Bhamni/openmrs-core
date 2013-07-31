@@ -162,6 +162,7 @@
                 <version>3.1</version>
             </dependency>
 
+
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
@@ -986,7 +987,12 @@
 			<name>OpenMRS Nexus Repository</name>
 			<url>http://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
 		</repository>
-	</repositories>
+        <repository>
+            <id>bahmni-artifactory</id>
+            <name>bahmni-artifactory-snapshots</name>
+            <url>http://bahmnirepo.thoughtworks.com/artifactory/libs-snapshot-local</url>
+        </repository>
+    </repositories>
 
 	<pluginRepositories>
 		<pluginRepository>
