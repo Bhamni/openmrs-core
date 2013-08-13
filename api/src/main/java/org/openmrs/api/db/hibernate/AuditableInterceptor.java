@@ -56,7 +56,7 @@ public class AuditableInterceptor extends EmptyInterceptor {
 	 */
 	@Override
 	public boolean onSave(Object entity, Serializable id, Object[] currentState, String[] propertyNames, Type[] types) {
-		return setCreatorAndDateCreatedIfNull(entity, currentState, propertyNames);
+		return setAuditFieldsIfNull(entity, currentState, propertyNames);
 	}
 	
 	/**
@@ -74,18 +74,12 @@ public class AuditableInterceptor extends EmptyInterceptor {
 	public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState, Object[] previousState,
 	        String[] propertyNames, Type[] types) throws CallbackException {
 		boolean objectWasChanged = false;
-		
-		objectWasChanged = setCreatorAndDateCreatedIfNull(entity, currentState, propertyNames);
+		Date now = new Date();
 		
 		if (entity instanceof Auditable && propertyNames != null) {
-			if (log.isDebugEnabled())
-				log.debug("Setting changed by fields on " + entity.getClass());
+			objectWasChanged = setCreatorAndDateCreatedIfNull(entity, currentState, propertyNames, now);
 			
-			if (setValue(currentState, propertyNames, "changedBy", Context.getAuthenticatedUser(), false)) {
-				objectWasChanged = true;
-			}
-			
-			if (setValue(currentState, propertyNames, "dateChanged", new Date(), false)) {
+			if (setChangedByAndDateChanged(entity, currentState, propertyNames, now, false)) {
 				objectWasChanged = true;
 			}
 		}
@@ -93,31 +87,81 @@ public class AuditableInterceptor extends EmptyInterceptor {
 		return objectWasChanged;
 	}
 	
-	/**
-	 * Sets the creator and dateCreated fields to the current user and the current time if they are
-	 * null.
-	 * 
-	 * @param entity
-	 * @param currentState
-	 * @param propertyNames
-	 * @return true if creator and dateCreated were changed
-	 */
-	private boolean setCreatorAndDateCreatedIfNull(Object entity, Object[] currentState, String[] propertyNames) {
+	private boolean setAuditFieldsIfNull(Object entity, Object[] currentState, String[] propertyNames) {
 		boolean objectWasChanged = false;
 		
 		if (entity instanceof OpenmrsObject) {
-			if (log.isDebugEnabled())
-				log.debug("Setting creator and dateCreated on " + entity);
 			
-			if (setValue(currentState, propertyNames, "creator", Context.getAuthenticatedUser(), true)) {
+			if (setCreatorAndDateCreatedIfNull(entity, currentState, propertyNames, new Date())) {
 				objectWasChanged = true;
 			}
+
+            Date dateCreated = (Date) getValue(currentState, propertyNames, "dateCreated");
 			
-			if (setValue(currentState, propertyNames, "dateCreated", new Date(), true)) {
+			if (setChangedByAndDateChanged(entity, currentState, propertyNames, dateCreated, true)) {
 				objectWasChanged = true;
 			}
 		}
 		
+		return objectWasChanged;
+	}
+
+    private Object getValue(Object[] currentState, Object propertyNames, String propertyName){
+        int index = Arrays.asList(propertyNames).indexOf(propertyName);
+        return index >= 0 ? currentState[index] : null;
+    }
+
+	/**
+	 * Sets the creator and dateCreated fields to the current user and the current time if they are
+	 * null.
+	 *
+	 * @param entity
+	 * @param currentState
+	 * @param propertyNames
+	 * @param date
+	 * @return true if creator and dateCreated were changed
+	 */
+	private boolean setCreatorAndDateCreatedIfNull(Object entity, Object[] currentState, String[] propertyNames, Date date) {
+		boolean objectWasChanged = false;
+		
+		if (log.isDebugEnabled())
+			log.debug("Setting creator and dateCreated on " + entity);
+		
+		if (setValue(currentState, propertyNames, "creator", Context.getAuthenticatedUser(), true)) {
+			objectWasChanged = true;
+		}
+		
+		if (setValue(currentState, propertyNames, "dateCreated", date, true)) {
+			objectWasChanged = true;
+		}
+		return objectWasChanged;
+	}
+	
+	/**
+	 * Sets the creator and dateCreated fields to the current user and the current time if they are
+	 * null.
+	 *
+	 * @param entity
+	 * @param currentState
+	 * @param propertyNames
+	 * @param date
+	 * @param setNullOnly
+	 * @return true if creator and dateCreated were changed
+	 */
+	private boolean setChangedByAndDateChanged(Object entity, Object[] currentState, String[] propertyNames, Date date,
+	        boolean setNullOnly) {
+		boolean objectWasChanged = false;
+		
+		if (log.isDebugEnabled())
+			log.debug("Setting changed by fields on " + entity.getClass());
+		
+		if (setValue(currentState, propertyNames, "changedBy", Context.getAuthenticatedUser(), setNullOnly)) {
+			objectWasChanged = true;
+		}
+		
+		if (setValue(currentState, propertyNames, "dateChanged", date, setNullOnly)) {
+			objectWasChanged = true;
+		}
 		return objectWasChanged;
 	}
 	

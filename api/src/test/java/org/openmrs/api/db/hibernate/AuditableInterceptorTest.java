@@ -14,6 +14,8 @@
 package org.openmrs.api.db.hibernate;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.hibernate.type.Type;
@@ -175,8 +177,8 @@ public class AuditableInterceptorTest extends BaseContextSensitiveTest {
 		
 		User u = new User();
 		
-		String[] propertyNames = new String[] { "creator", "dateCreated" };
-		Object[] currentState = new Object[] { 0, null };
+		String[] propertyNames = new String[] { "creator", "dateCreated", "changedBy", "dateChanged" };
+		Object[] currentState = new Object[] { 0, null, 0, new Date() };
 		
 		boolean result = interceptor.onSave(u, 0, currentState, propertyNames, null);
 		Assert.assertTrue(result);
@@ -192,11 +194,64 @@ public class AuditableInterceptorTest extends BaseContextSensitiveTest {
 		
 		User u = new User();
 		
-		String[] propertyNames = new String[] { "creator", "dateCreated" };
-		Object[] currentState = new Object[] { null, new Date() };
+		String[] propertyNames = new String[] { "creator", "dateCreated", "changedBy", "dateChanged" };
+		Object[] currentState = new Object[] { null, new Date(), 0, new Date() };
 		
 		boolean result = interceptor.onSave(u, 0, currentState, propertyNames, null);
 		Assert.assertTrue(result);
+	}
+	
+	/**
+	 * @see AuditableInterceptor#onSave(Object,Serializable,Object[],String[],Type[])
+	 * @verifies return true if changedBy was null
+	 */
+	@Test
+	public void onSave_shouldReturnTrueIfChangedByWasNull() throws Exception {
+		AuditableInterceptor interceptor = new AuditableInterceptor();
+		
+		User u = new User();
+		
+		String[] propertyNames = new String[] { "creator", "dateCreated", "changedBy", "dateChanged" };
+		Object[] currentState = new Object[] { 0, new Date(), null, new Date() };
+		
+		boolean result = interceptor.onSave(u, 0, currentState, propertyNames, null);
+		Assert.assertTrue(result);
+	}
+	
+	/**
+	 * @see AuditableInterceptor#onSave(Object,Serializable,Object[],String[],Type[])
+	 * @verifies return true if dateChanged was null
+	 */
+	@Test
+	public void onSave_shouldReturnTrueIfDateChangedWasNull() throws Exception {
+		AuditableInterceptor interceptor = new AuditableInterceptor();
+		
+		User u = new User();
+		
+		String[] propertyNames = new String[] { "creator", "dateCreated", "changedBy", "dateChanged" };
+		Object[] currentState = new Object[] { 0, new Date(), 0, null };
+		
+		boolean result = interceptor.onSave(u, 0, currentState, propertyNames, null);
+		Assert.assertTrue(result);
+	}
+	
+	/**
+	 * @see AuditableInterceptor#onSave(Object,Serializable,Object[],String[],Type[])
+	 * @verifies return true if dateChanged was null
+	 */
+	@Test
+	public void onSave_shouldSetDateChangedToDateCreatedIfDateChangedWasNull() throws Exception {
+		AuditableInterceptor interceptor = new AuditableInterceptor();
+		
+		User u = new User();
+		
+		String[] propertyNames = new String[] { "creator", "dateCreated", "changedBy", "dateChanged" };
+		Date dateCreated = new SimpleDateFormat("yyyy/mm/dd").parse("1999/12/26");
+		Object[] currentState = new Object[] { 0, dateCreated, 0, null };
+		
+		interceptor.onSave(u, 0, currentState, propertyNames, null);
+		
+		Assert.assertEquals(dateCreated, currentState[3]);
 	}
 	
 	/**
@@ -209,8 +264,8 @@ public class AuditableInterceptorTest extends BaseContextSensitiveTest {
 		
 		User u = new User();
 		
-		String[] propertyNames = new String[] { "creator", "dateCreated" };
-		Object[] currentState = new Object[] { 0, new Date() };
+		String[] propertyNames = new String[] { "creator", "dateCreated", "changedBy", "dateChanged" };
+		Object[] currentState = new Object[] { 0, new Date(), 0, new Date() };
 		
 		boolean result = interceptor.onSave(u, 0, currentState, propertyNames, null);
 		Assert.assertFalse(result);
