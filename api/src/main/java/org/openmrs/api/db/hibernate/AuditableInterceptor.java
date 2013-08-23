@@ -14,8 +14,10 @@
 package org.openmrs.api.db.hibernate;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -95,8 +97,8 @@ public class AuditableInterceptor extends EmptyInterceptor {
 			if (setCreatorAndDateCreatedIfNull(entity, currentState, propertyNames, new Date())) {
 				objectWasChanged = true;
 			}
-
-            Date dateCreated = (Date) getValue(currentState, propertyNames, "dateCreated");
+			
+			Date dateCreated = (Date) getValue(currentState, propertyNames, "dateCreated");
 			
 			if (setChangedByAndDateChanged(entity, currentState, propertyNames, dateCreated, true)) {
 				objectWasChanged = true;
@@ -105,12 +107,12 @@ public class AuditableInterceptor extends EmptyInterceptor {
 		
 		return objectWasChanged;
 	}
-
-    private Object getValue(Object[] currentState, Object propertyNames, String propertyName){
+	
+	private Object getValue(Object[] currentState, String[] propertyNames, String propertyName) {
         int index = Arrays.asList(propertyNames).indexOf(propertyName);
-        return index >= 0 ? currentState[index] : null;
-    }
-
+		return index >= 0 ? currentState[index] : null;
+	}
+	
 	/**
 	 * Sets the creator and dateCreated fields to the current user and the current time if they are
 	 * null.
